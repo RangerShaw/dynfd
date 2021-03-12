@@ -13,3 +13,5 @@ for /F "usebackq delims=" %%v in (benchmarks.txt) do (
         )
     )
 )
+
+java -Xmx8g -jar benchmarks/target/benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar --name "Inc Default Cluster Pruning" --recomputeDataStructures false --batchSize 1

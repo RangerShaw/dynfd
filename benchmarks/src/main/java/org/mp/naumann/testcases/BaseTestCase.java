@@ -68,6 +68,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 
             Table table = dc.getTable(schema, sourceTableName);
             setBaselineSize(table.getRowCount());
+            System.out.println(table.getRowCount());
             StreamableBatchSource batchSource = getBatchSource();
 
             // execute HyFD in any case; we need the data structure for the incremental algorithm, and can use it
