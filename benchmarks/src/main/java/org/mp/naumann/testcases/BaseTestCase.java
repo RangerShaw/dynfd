@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+
 import org.mp.naumann.algorithms.benchmark.speed.Benchmark;
 import org.mp.naumann.algorithms.benchmark.speed.BenchmarkEvent;
 import org.mp.naumann.algorithms.benchmark.speed.BenchmarkEventListener;
@@ -68,7 +69,6 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 
             Table table = dc.getTable(schema, sourceTableName);
             setBaselineSize(table.getRowCount());
-            System.out.println(table.getRowCount());
             StreamableBatchSource batchSource = getBatchSource();
 
             // execute HyFD in any case; we need the data structure for the incremental algorithm, and can use it
@@ -95,6 +95,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
                         stmt.execute(String.format("CREATE INDEX %s_%s_idx ON %s (%s)", tableName, column, fullTableName, column));
                 }
 
+                // add batchProcessor to batchSource as a listener
                 BatchProcessor batchProcessor = new SynchronousBatchProcessor(batchSource, new PassThroughDatabaseBatchHandler(dc), true);
                 batchProcessor.addBatchHandler(new HyFDBatchHandler(table, getLimit(), config, resultListener));
             } else {
@@ -113,7 +114,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 
             System.out.println(String.format("Cumulative runtime (algorithm only): %sms", getTotalTime(batchEvents)));
             System.out.println(String.format("Found %s FDs:", resultListener.getFDs().size()));
-            resultListener.getFDs().forEach(fd -> FDLogger.log(Level.INFO, fd.toString()));
+            resultListener.getFDs().forEach(fd -> FDLogger.log(Level.FINE, fd.toString()));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -183,7 +184,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
     private static class HyFDBatchHandler implements BatchHandler {
 
         private final Table table;
-        private final boolean singleFile;
+        private final boolean singleFile;   // always false
         private final IncrementalFDConfiguration config;
         private final IncrementalFDResultListener resultListener;
 
@@ -191,7 +192,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
             this.table = table;
             this.config = config;
             this.resultListener = resultListener;
-            singleFile = (limit > 0);
+            singleFile = (limit > 0);       // always false
             if (singleFile) table.setLimit(limit);
         }
 

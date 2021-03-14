@@ -28,9 +28,9 @@ public class VariableSizeCsvBatchSource extends CsvFileBatchSource implements St
         File file = new File(ResourceConnector.getResourcePath(String.format("%s/%s.csv", directory, fileNumber)));
         if (file.exists()) {
             statementList.clear();
-            parseFile(file);
+            parseFile(file);                // parse SQL statements from a file and add them to statementList
             Batch batchToSend = new ListBatch(statementList, schema, tableName);
-            notifyListener(batchToSend);
+            notifyListener(batchToSend);    // Listener is a BatchProcessor
         }
         return file.exists();
     }

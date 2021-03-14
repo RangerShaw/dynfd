@@ -7,7 +7,7 @@ import java.io.InputStream;
 public class ResourceConnector {
 
     public static final String TEST = "../data_files/test/";
-    public static final String BASELINE = "../data_files/baseline/";
+    public static final String BASELINE = "data_files/baseline/";
     public static final String INSERTS = "../data_files/inserts/";
     public static final String DELETES = "../data_files/deletes/";
     public static final String UPDATES = "../data_files/updates/";

@@ -146,6 +146,8 @@ public class BenchmarksApplication {
                 return ResourceConnector.UPDATES;
             case "batches":
                 return ResourceConnector.BATCHES;
+            case "baseline":
+                return ResourceConnector.BASELINE;
             default:
                 return batchDirectory;
         }
