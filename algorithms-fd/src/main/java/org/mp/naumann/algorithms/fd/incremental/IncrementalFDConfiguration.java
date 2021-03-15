@@ -14,6 +14,7 @@ public class IncrementalFDConfiguration {
     public static final IncrementalFDConfiguration HYFD_ORIGINAL = V0_0;
     private static final IncrementalFDConfiguration[] configurations = {V0_0, V0_1, V0_2, V0_3, V0_4, V0_5};
     public static final IncrementalFDConfiguration LATEST = configurations[configurations.length - 1];
+
     private final char versionCode;
     private final Collection<PruningStrategy> pruningStrategies = new ArrayList<>();
     private final String versionName;

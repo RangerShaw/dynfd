@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename = "benchmark.adultfull.csv"
+filename="benchmark.adultfull.csv"
 
 readarray test_versions < ./benchmarks.txt
 batch_sizes=(1 10 100 1000 10000 100000)
@@ -14,3 +14,6 @@ for configuration in "${test_versions[@]}"; do
     done
 done
 exit 0
+
+
+java -jar benchmarks/target/benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar --name "Default Cluster Pruning" --recomputeDataStructures true --batchSize 1

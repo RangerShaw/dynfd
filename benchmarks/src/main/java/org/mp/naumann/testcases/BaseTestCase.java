@@ -69,6 +69,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 
             Table table = dc.getTable(schema, sourceTableName);
             setBaselineSize(table.getRowCount());
+
             StreamableBatchSource batchSource = getBatchSource();
 
             // execute HyFD in any case; we need the data structure for the incremental algorithm, and can use it
@@ -104,6 +105,8 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 
                 incrementalAlgorithm.initialize(ds);
                 incrementalAlgorithm.addResultListener(resultListener);
+
+                // mock DatabaseBatchHandler so that real DB won't be affected
                 BatchProcessor batchProcessor = new SynchronousBatchProcessor(batchSource, mock(DatabaseBatchHandler.class), false);
                 batchProcessor.addBatchHandler(incrementalAlgorithm);
             }
