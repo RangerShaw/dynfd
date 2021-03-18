@@ -43,7 +43,10 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
     public String toString() {
         if (this.tableIdentifier.isEmpty() && this.columnIdentifier.isEmpty())
             return "";
-        return tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
+        String str = tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
+        int i = Integer.parseInt(str.toString().split("c")[1]) + 1;
+        return Integer.toString(i);
+//        return tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
     }
 
     public String getTableIdentifier() {

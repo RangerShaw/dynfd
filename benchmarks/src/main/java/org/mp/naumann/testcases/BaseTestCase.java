@@ -67,7 +67,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
 //        try(Connection conn = ConnectionManager.getCsvConnection(ResourceConnector.BASELINE, ","); DataConnector dc = new JdbcDataConnector(conn)) {
         try (Connection conn = ConnectionManager.getPostgresConnection(pgdb, pguser, pgpass); DataConnector dc = new JdbcDataConnector(conn)) {
 
-            Table table = dc.getTable(schema, sourceTableName);
+            Table table = dc.getTable(schema, tableName);
             setBaselineSize(table.getRowCount());
 
             StreamableBatchSource batchSource = getBatchSource();
@@ -81,6 +81,7 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
             FDLogger.log(Level.FINE, "Initial FDs:");
             fds.forEach(fd -> FDLogger.log(Level.FINE, fd.toString()));
 
+            long l1 = System.currentTimeMillis();
             if (hyfdOnly) {
                 // create temporary table that we can modify as batches come in
                 String fullTableName = (schema.isEmpty() ? "" : schema + ".") + tableName;
@@ -114,9 +115,12 @@ abstract class BaseTestCase implements TestCase, BenchmarkEventListener {
             Benchmark b = Benchmark.start("Algorithm for all batches", BenchmarkLevel.ALGORITHM.ordinal());
             batchSource.startStreaming();
             b.finish();
-
+            System.out.println("all time :" + (System.currentTimeMillis() - l1));
             System.out.println(String.format("Cumulative runtime (algorithm only): %sms", getTotalTime(batchEvents)));
             System.out.println(String.format("Found %s FDs:", resultListener.getFDs().size()));
+//            for (FunctionalDependency  functionalDependency : resultListener.getFDs()){
+//                System.out.println(functionalDependency.toString());
+//            }
             resultListener.getFDs().forEach(fd -> FDLogger.log(Level.FINE, fd.toString()));
 
         } catch (SQLException e) {

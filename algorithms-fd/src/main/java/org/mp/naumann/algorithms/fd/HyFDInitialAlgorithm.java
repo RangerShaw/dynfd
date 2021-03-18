@@ -28,7 +28,9 @@ public class HyFDInitialAlgorithm implements InitialAlgorithm<List<FunctionalDep
     public List<FunctionalDependency> execute() {
         fds.clear();
         try {
+            long t1 = System.currentTimeMillis();
             hyfd.execute();
+            System.out.println("HyFD Time : " + (System.currentTimeMillis() - t1));
         } catch (AlgorithmExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

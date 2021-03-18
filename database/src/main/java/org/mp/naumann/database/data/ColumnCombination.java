@@ -50,6 +50,8 @@ public class ColumnCombination implements Serializable, Comparable<Object> {
 
     @Override
     public String toString() {
+//        int i = Integer.parseInt(columnIdentifiers.toString().split("c")[1]) + 1;
+//        return Integer.toString(i);
         return columnIdentifiers.toString();
     }
 

@@ -49,7 +49,7 @@ public class IncrementalFD implements IncrementalAlgorithm<IncrementalFDResult, 
     private final List<ResultListener<IncrementalFDResult>> resultListeners = new ArrayList<>();
     private final String tableName;
     private boolean validateParallel = true;
-    private float efficiencyThreshold = 0.01f;
+    private float efficiencyThreshold = 0;
     private IncrementalFDConfiguration version = IncrementalFDConfiguration.LATEST;
     private List<String> columns;
     private List<Integer> pliOrder;

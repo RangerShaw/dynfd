@@ -45,7 +45,8 @@ public abstract class IncrementalValidator<T> {
         this.numAttributes = plis.size();
         this.efficiencyThreshold = efficiencyThreshold;
 
-        if (parallel) {
+        System.out.println("isparallel :"  + !parallel);
+        if (!parallel) {
             int numThreads = Runtime.getRuntime().availableProcessors();
             this.executor = Executors.newFixedThreadPool(numThreads);
         }

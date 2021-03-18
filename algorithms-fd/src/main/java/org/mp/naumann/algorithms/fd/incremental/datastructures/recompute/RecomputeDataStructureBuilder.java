@@ -49,12 +49,13 @@ public class RecomputeDataStructureBuilder implements DataStructureBuilder {
 
     @Override
     public CompressedDiff update(Batch batch) {
+        long l1 = System.currentTimeMillis();
         Benchmark benchmark = Benchmark.start("Recompute data structures", Benchmark.DEFAULT_LEVEL + 1);
         AbstractStatementApplier applier = new StatementApplier();
         for (Statement statement : batch.getStatements()) {
             statement.accept(applier);
         }
-
+        System.out.println("updatePLI: " + (System.currentTimeMillis() - l1));
         Set<Integer> inserted = applier.getInserted();
         Set<Integer> deleted = applier.getDeleted();
         Set<Integer> inserted_tmp = new HashSet<>(inserted);
@@ -62,6 +63,7 @@ public class RecomputeDataStructureBuilder implements DataStructureBuilder {
         deleted.removeAll(inserted_tmp);
         recordIds.addAll(inserted);
         recordIds.removeAll(deleted);
+
 
         benchmark.finishSubtask("Apply statements");
         Map<Integer, int[]> deletedDiff = new HashMap<>(deleted.size());
@@ -75,6 +77,7 @@ public class RecomputeDataStructureBuilder implements DataStructureBuilder {
         inserted.forEach(i -> insertedDiff.put(i, getCompressedRecord(i)));
 
         benchmark.finish();
+        System.out.println("getUpdateData: " + (System.currentTimeMillis() - l1));
         return new CompressedDiff(insertedDiff, deletedDiff, new HashMap<>(0), new HashMap<>(0));
     }
 

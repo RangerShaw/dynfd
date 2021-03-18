@@ -15,6 +15,7 @@ public enum CsvKeyWord {
     }
 
     public static CsvKeyWord valueOfKeyWord(String value) {
+        System.out.println(value);
         return Arrays.stream(values())
             .filter(k -> k.getKeyWord().equalsIgnoreCase(value))
             .findFirst()
